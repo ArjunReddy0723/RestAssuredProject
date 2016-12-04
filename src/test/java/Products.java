@@ -18,17 +18,24 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import static com.jayway.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+import static com.jayway.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+import static com.jayway.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+import static com.jayway.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+import static com.jayway.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+import static com.jayway.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+import static com.jayway.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 
 /**
  *
  * @author badri
  */
-public class JsonTest {
+public class Products {
     
     @Rule
     public WireMockRule wiremockrule = new WireMockRule(8080);
     
-    public JsonTest() {
+    public Products() {
     }
     
     @BeforeClass
@@ -49,7 +56,7 @@ public class JsonTest {
 
     @Test
     public void getProducts_Should_Contain_A_BlueMouse(){
-        mockproductServer();
+        mockproducts();
         when().
                 get("http://localhost:8080/products").then().
                 body("[1].name",containsString("A blue mouse"));
@@ -58,18 +65,18 @@ public class JsonTest {
     
     @Test
     public void getProducts_Should_getResponse_asPerSchema(){
-        mockproductServer();
+        mockproducts();
         when().
                 get("http://localhost:8080/products").then().
-                body(matchesJsonSchema(new File("src/test/resources/__files/ProductJsonSchema.json")));
+                body(matchesJsonSchema(new File("src/test/resources/__files/ProductsSchema.json")));
     }
     
-    public void mockproductServer(){
+    public void mockproducts(){
         wiremockrule.stubFor(WireMock.get(urlEqualTo("/products"))      
         .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
-                .withBodyFile("Product.json")));
+                .withBodyFile("Products.json")));
         wiremockrule.start();
     }
 }
